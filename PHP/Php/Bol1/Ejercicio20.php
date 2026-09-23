@@ -33,7 +33,7 @@ function mostrarAlumnos($alumnos){
     $nombres=[];
     foreach ($alumnos as $alum) {
         if($alum["edad"] > 19){
-        array_push($nombres, $alum["edad"]);
+        array_push($nombres, $alum["nombre"]);
         }}
     return $nombres;
 }
@@ -42,6 +42,16 @@ function mostrarAlumnos($alumnos){
 //echo mediaNota($alumnos);
 //echo implode("- ", mostrarAlumnos($alumnos));
 
+$resultado = "";
+if (isset($_GET["accion"])) {
+    if ($_GET["accion"] == "media") {
+        $resultado = "Media de notas: " . mediaNota($alumnos);
+    } elseif ($_GET["accion"] == "maxima") {
+        $resultado = "Alumno con la nota más alta: " . maxNota($alumnos);
+    } elseif ($_GET["accion"] == "mayores") {
+        $resultado = "Alumnos mayores de 19: " . implode(", ", mostrarAlumnos($alumnos));
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,11 +61,10 @@ function mostrarAlumnos($alumnos){
     <title>Menu alumnos</title>
 </head>
 <body>
-    <a href="?notaMaxima"><button>Ver nota máxima</button></a>
-    <p><?php echo maxNota($alumnos);?></p>
-    <a href="?notaMedia"><button>Ver nota media</button></a>  
-    <p><?php echo mediaNota($alumnos);?></p>
-    <a href="?mayores19"><button>Ver mayores de 19</button></a>
-    <p><?php echo implode("- ", mostrarAlumnos($alumnos)); ?></p>
+    <a href="?accion=maxima"><button>Ver nota máxima</button></a>
+    <a href="?accion=media"><button>Ver nota media</button></a>
+    <a href="?accion=mayores"><button>Ver mayores de 19</button></a>
+
+    <p><?php echo $resultado; ?></p>
 </body>
 </html>
